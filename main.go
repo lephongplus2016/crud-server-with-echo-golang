@@ -1,44 +1,32 @@
 package main
 
 import (
-	"net/http"
+	// the way to import package in this project
+
+	"myapp/handler"
+	"myapp/mdw"
+
 	"github.com/labstack/echo/v4"
-	"fmt"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	server := echo.New()
 
-	server.GET("/", hello)
+	server.GET("/", handler.Hello)
 
-	server.POST("/login", login)
+	// middleware: key word import by "github.com/labstack/echo/v4/middleware"
+	// this middleware uses for all API Call
+	// log request api history
+	server.Use(middleware.Logger())
+
+	// how to use middleware for a api method??
+	// api request -> middleware run first
+	// pass-> run this login controller
+	// this field is check in Basic Auth (Auth tab in post man)
+	// this solution use the middleware only for this api
+	server.POST("/login", handler.Login, middleware.BasicAuth(mdw.BasicAuth))
 
 	server.Logger.Fatal(server.Start(":8888"))
 
-}
-
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello world!")
-}
-
-func login(c echo.Context) error {
-	req := new(LoginRequest)
-	c.Bind(req)
-
-	fmt.Printf("req:%v", req)
-
-	if (req.Username != "admin" || req.Password != "123") {
-		return c.String(http.StatusUnauthorized, "username or password is incorrect")
-	}
-
-	return c.JSON(http.StatusOK, &LoginResponse{Token: "123456"})
-}
-
-type LoginRequest struct {
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
-}
-
-type LoginResponse struct {
-	Token string `json:"token"`
 }
