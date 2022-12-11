@@ -13,8 +13,6 @@ import (
 func main() {
 	server := echo.New()
 
-	server.GET("/", handler.Hello)
-
 	// middleware: key word import by "github.com/labstack/echo/v4/middleware"
 	// this middleware uses for all API Call
 	// log request api history
@@ -26,6 +24,12 @@ func main() {
 	// this field is check in Basic Auth (Auth tab in post man)
 	// this solution use the middleware only for this api
 	server.POST("/login", handler.Login, middleware.BasicAuth(mdw.BasicAuth))
+
+	// check jwt is valid
+	isLogin := middleware.JWT([]byte("secret_key"))
+
+	// it make a check " "missing or malformed jwt""
+	server.GET("/", handler.Hello, isLogin)
 
 	server.Logger.Fatal(server.Start(":8888"))
 
