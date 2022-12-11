@@ -42,9 +42,10 @@ func main() {
 	groupv2.GET("/hello3", handler.Hello3)
 
 	// use middleware function for this whole api group
-	groupUser := server.Group("/api/user", isLogin)
+	groupUser := server.Group("/api/user")
 	groupUser.GET("/user1", handler.User)
 	groupUser.GET("/user2", handler.User2)
+	groupUser.GET("/get-all", handler.GetAllUsers)
 
 	server.Logger.Fatal(server.Start(":8888"))
 
