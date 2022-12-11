@@ -57,6 +57,5 @@
 
 2. User sử dụng jwt đó để goi api "/", nếu jwt hợp lệ thì mới cho đi qua
 
-```
+![Flow chart](https://github.com/lephongplus2016/crud-server-with-echo-golang/blob/master/img/jwt_diagram.png?raw=true)
 
-```
