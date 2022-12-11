@@ -36,6 +36,16 @@ func main() {
 	// the middleware function list: execute in order
 	server.GET("/admin", handler.Hello, isLogin, IsAdminMdw)
 
+	// create group api
+	groupv2 := server.Group("/v2")
+	groupv2.GET("/hello2", handler.Hello2)
+	groupv2.GET("/hello3", handler.Hello3)
+
+	// use middleware function for this whole api group
+	groupUser := server.Group("/api/user", isLogin)
+	groupUser.GET("/user1", handler.User)
+	groupUser.GET("/user2", handler.User2)
+
 	server.Logger.Fatal(server.Start(":8888"))
 
 }

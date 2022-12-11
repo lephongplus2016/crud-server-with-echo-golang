@@ -27,3 +27,13 @@ func Hello(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, x)
 }
+
+func Hello2(c echo.Context) error {
+
+	return c.String(http.StatusOK, "hello 2")
+}
+
+func Hello3(c echo.Context) error {
+
+	return c.String(http.StatusOK, "hello 3")
+}
