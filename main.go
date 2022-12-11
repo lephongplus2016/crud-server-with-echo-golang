@@ -28,8 +28,13 @@ func main() {
 	// check jwt is valid
 	isLogin := middleware.JWT([]byte("secret_key"))
 
+	IsAdminMdw := mdw.IsAdminMdw
+
 	// it make a check " "missing or malformed jwt""
 	server.GET("/", handler.Hello, isLogin)
+
+	// the middleware function list: execute in order
+	server.GET("/admin", handler.Hello, isLogin, IsAdminMdw)
 
 	server.Logger.Fatal(server.Start(":8888"))
 

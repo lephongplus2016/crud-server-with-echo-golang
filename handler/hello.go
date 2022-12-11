@@ -7,8 +7,6 @@ import (
 	"myapp/models"
 	"net/http"
 
-	"log"
-
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
@@ -16,7 +14,6 @@ import (
 func Hello(c echo.Context) error {
 	//https://echo.labstack.com/cookbook/jwt/#server-using-a-user-defined-keyfunc
 	user := c.Get("user").(*jwt.Token)
-	log.Println("user:", user)
 	claims := user.Claims.(jwt.MapClaims)
 
 	username := claims["username"].(string)
